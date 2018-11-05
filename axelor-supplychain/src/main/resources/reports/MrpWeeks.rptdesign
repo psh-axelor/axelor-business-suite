@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.4.2.v201410272105 Build &lt;4.4.2.v20150217-1805></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.7.0.v201706222054</property>
     <list-property name="userProperties">
         <structure>
             <property name="name">Data Cube.MrpLineDS.x</property>
@@ -196,7 +196,9 @@
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">org.postgresql.Driver</property>
-            <property name="odaURL">jdbc:postgresql://localhost:5432/</property>
+            <property name="odaURL">jdbc:postgresql://localhost:5432/axelor-business-suite</property>
+            <property name="odaUser">axelor</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">YXhlbG9y</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -204,18 +206,21 @@
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">created_on</property>
+                    <property name="alias">created_on</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">created_on</text-property>
                     <text-property name="heading">created_on</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">end_date</property>
+                    <property name="alias">end_date</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">end_date</text-property>
                     <text-property name="heading">end_date</text-property>
                 </structure>
                 <structure>
                     <property name="columnName">locationName</property>
+                    <property name="alias">locationName</property>
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">locationName</text-property>
                     <text-property name="heading">locationName</text-property>
@@ -250,6 +255,16 @@
                         <property name="name">locationName</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">logo_path</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">updateDate</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
                 </list-property>
             </structure>
             <property name="dataSource">Data Source</property>
@@ -259,26 +274,37 @@
                     <property name="name">created_on</property>
                     <property name="nativeName">created_on</property>
                     <property name="dataType">date-time</property>
-                    <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">end_date</property>
                     <property name="nativeName">end_date</property>
                     <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">locationName</property>
                     <property name="nativeName">locationName</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">logo_path</property>
+                    <property name="nativeName">logo_path</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">updateDate</property>
+                    <property name="nativeName">updateDate</property>
+                    <property name="dataType">date-time</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select Mrp.created_on, Mrp.end_date, Location.name as "locationName"
-from supplychain_mrp as Mrp
+            <xml-property name="queryText"><![CDATA[select Mrp.created_on, Mrp.end_date, Location.name as "locationName", MetaFile.file_path as "logo_path", Mrp.updated_on as "updateDate"
+from supplychain_mrp as Mrp 
 left join stock_stock_location as Location on (Mrp.stock_location = Location.id)
+left join base_company as Company on (Location.company = Company.id)
+left join meta_file as MetaFile on (MetaFile.id = Company.logo)
 where Mrp.id = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -829,6 +855,38 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
+                <tabular-dimension name="Group1" id="4336">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="4337">
+                            <property name="levels">
+                                <tabular-level name="Year" id="4338">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">maturity_date</property>
+                                </tabular-level>
+                                <tabular-level name="Week Of Year" id="4339">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">week-of-year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">maturity_date</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
             </property>
             <property name="measureGroups">
                 <tabular-measure-group name="Summary Field1" id="4038">
@@ -902,7 +960,7 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
     </page-setup>
     <body>
         <grid id="12">
-            <property name="height">16.801041666666666cm</property>
+            <property name="height">16.377708333333334cm</property>
             <property name="dataSet">MrpDS</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -923,10 +981,54 @@ where LangTranslate.message_key = ? and LangTranslate.language = ?]]></xml-prope
                     <expression name="expression" type="javascript">dataSetRow["locationName"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">logo_path</property>
+                    <text-property name="displayName">logo_path</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logo_path"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">updateDate</property>
+                    <text-property name="displayName">updateDate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["updateDate"]</expression>
+                    <property name="dataType">date-time</property>
+                    <property name="allowExport">true</property>
+                </structure>
             </list-property>
             <column id="13"/>
             <column id="14"/>
             <column id="15"/>
+            <row id="4321">
+                <property name="textAlign">center</property>
+                <property name="height">2.2489583333333334cm</property>
+                <cell id="4322">
+                    <property name="textAlign">left</property>
+                    <image id="3419">
+                        <property name="overflow">hidden</property>
+                        <property name="height">71px</property>
+                        <property name="width">309px</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">row["logo_path"] == null</expression>
+                            </structure>
+                        </list-property>
+                        <structure name="toc"/>
+                        <property name="source">file</property>
+                        <property name="proportionalScale">true</property>
+                        <expression name="uri" type="javascript">params["AttachmentPath"].value+row["logo_path"]</expression>
+                    </image>
+                </cell>
+                <cell id="4323"/>
+                <cell id="4324">
+                    <text id="4326">
+                        <property name="textAlign">right</property>
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[Updated On: <VALUE-OF>row["updateDate"]</VALUE-OF>]]></text-property>
+                    </text>
+                </cell>
+            </row>
             <row id="16">
                 <cell id="17"/>
                 <cell id="18">

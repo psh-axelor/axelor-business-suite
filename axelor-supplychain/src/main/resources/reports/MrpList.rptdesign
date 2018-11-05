@@ -196,6 +196,8 @@
             </list-property>
             <property name="odaDriverClass">org.postgresql.Driver</property>
             <property name="odaURL">jdbc:postgresql://localhost:5432/axelor-business-suite</property>
+            <property name="odaUser">axelor</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">YXhlbG9y</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -219,6 +221,18 @@
                     <property name="analysis">dimension</property>
                     <text-property name="displayName">locationName</text-property>
                     <text-property name="heading">locationName</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">logo_path</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">logo_path</text-property>
+                    <text-property name="heading">logo_path</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">updateDate</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">updateDate</text-property>
+                    <text-property name="heading">updateDate</text-property>
                 </structure>
             </list-property>
             <list-property name="parameters">
@@ -250,6 +264,16 @@
                         <property name="name">locationName</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">logo_path</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">updateDate</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
                 </list-property>
             </structure>
             <property name="dataSource">Data Source</property>
@@ -259,23 +283,42 @@
                     <property name="name">created_on</property>
                     <property name="nativeName">created_on</property>
                     <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">end_date</property>
                     <property name="nativeName">end_date</property>
                     <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">locationName</property>
                     <property name="nativeName">locationName</property>
                     <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">logo_path</property>
+                    <property name="nativeName">logo_path</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">updateDate</property>
+                    <property name="nativeName">updateDate</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select Mrp.created_on, Mrp.end_date, Location.name as "locationName"
+            <xml-property name="queryText"><![CDATA[select Mrp.created_on, Mrp.end_date, Location.name as "locationName", MetaFile.file_path as "logo_path", Mrp.updated_on as "updateDate"
 from supplychain_mrp as Mrp 
 left join stock_stock_location as Location on (Mrp.stock_location = Location.id)
+left join base_company as Company on (Location.company = Company.id)
+left join meta_file as MetaFile on (MetaFile.id = Company.logo)
 where Mrp.id = ?]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1889,7 +1932,7 @@ order by Product.code ASC, MrpLine.maturity_date ASC, MrpLineType.type_select AS
     <body>
         <grid id="12">
             <property name="pageBreakAfter">always</property>
-            <property name="height">5.270833333333333in</property>
+            <property name="height">8.614583333333334in</property>
             <property name="dataSet">MrpDS</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -1910,10 +1953,65 @@ order by Product.code ASC, MrpLine.maturity_date ASC, MrpLineType.type_select AS
                     <expression name="expression" type="javascript">dataSetRow["locationName"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">logo_path</property>
+                    <text-property name="displayName">logo_path</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["logo_path"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">updateDate</property>
+                    <text-property name="displayName">updateDate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["updateDate"]</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">updateDate_1</property>
+                    <text-property name="displayName">updateDate</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["updateDate"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
             </list-property>
             <column id="13"/>
             <column id="14"/>
             <column id="15"/>
+            <row id="4507">
+                <property name="height">2.196041666666667cm</property>
+                <cell id="4508">
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="verticalAlign">middle</property>
+                    <image id="3419">
+                        <property name="overflow">hidden</property>
+                        <property name="height">71px</property>
+                        <property name="width">309px</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">row["logo_path"] == null</expression>
+                            </structure>
+                        </list-property>
+                        <structure name="toc"/>
+                        <property name="source">file</property>
+                        <property name="proportionalScale">true</property>
+                        <expression name="uri" type="javascript">params["AttachmentPath"].value+row["logo_path"]</expression>
+                    </image>
+                </cell>
+                <cell id="4509">
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="verticalAlign">middle</property>
+                </cell>
+                <cell id="4510">
+                    <property name="fontFamily">sans-serif</property>
+                    <property name="verticalAlign">middle</property>
+                    <text id="4512">
+                        <property name="textAlign">right</property>
+                        <property name="contentType">html</property>
+                        <text-property name="content"><![CDATA[Updated On: <VALUE-OF>row["updateDate"]</VALUE-OF>]]></text-property>
+                    </text>
+                </cell>
+            </row>
             <row id="16">
                 <property name="height">1cm</property>
                 <cell id="17">
