@@ -33,7 +33,7 @@ public class InvoiceGeneratorContract extends InvoiceGenerator {
 
   public InvoiceGeneratorContract(Contract contract) throws AxelorException {
     super(
-        InvoiceRepository.OPERATION_TYPE_CLIENT_SALE,
+        InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE,
         contract.getCompany(),
         contract.getPartner(),
         null,

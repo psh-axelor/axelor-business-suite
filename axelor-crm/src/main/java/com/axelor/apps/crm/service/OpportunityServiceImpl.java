@@ -45,7 +45,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 
   @Override
   @Transactional
-  public Partner createClientFromLead(Opportunity opportunity) throws AxelorException {
+  public Partner createCustomerFromLead(Opportunity opportunity) throws AxelorException {
     Lead lead = opportunity.getLead();
     if (lead == null) {
       throw new AxelorException(

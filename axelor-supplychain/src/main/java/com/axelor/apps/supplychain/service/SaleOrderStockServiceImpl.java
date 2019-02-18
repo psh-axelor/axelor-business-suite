@@ -254,7 +254,7 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
             null,
             saleOrder.getDeliveryAddress(),
             company,
-            saleOrder.getClientPartner(),
+            saleOrder.getCustomerPartner(),
             saleOrder.getStockLocation(),
             toStockLocation,
             null,
@@ -324,7 +324,7 @@ public class SaleOrderStockServiceImpl implements SaleOrderStockService {
   protected StockLocation findSaleOrderToStockLocation(SaleOrder saleOrder) throws AxelorException {
     Preconditions.checkNotNull(saleOrder, I18n.get("Sale order cannot be null."));
 
-    Partner partner = saleOrder.getClientPartner();
+    Partner partner = saleOrder.getCustomerPartner();
     Company company = saleOrder.getCompany();
 
     Preconditions.checkNotNull(partner, I18n.get("Partner cannot be null."));

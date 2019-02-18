@@ -171,7 +171,7 @@ public class ProjectController {
 
   public void getPartnerData(ActionRequest request, ActionResponse response) {
     Project project = request.getContext().asType(Project.class);
-    Partner partner = project.getClientPartner();
+    Partner partner = project.getCustomerPartner();
 
     if (partner != null) {
 
@@ -179,9 +179,9 @@ public class ProjectController {
 
       response.setValue(
           "priceList",
-          project.getClientPartner() != null
+          project.getCustomerPartner() != null
               ? Beans.get(PartnerPriceListService.class)
-                  .getDefaultPriceList(project.getClientPartner(), PriceListRepository.TYPE_SALE)
+                  .getDefaultPriceList(project.getCustomerPartner(), PriceListRepository.TYPE_SALE)
               : null);
     }
   }

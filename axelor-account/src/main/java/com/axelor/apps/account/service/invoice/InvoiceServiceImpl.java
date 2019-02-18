@@ -166,11 +166,11 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
         return invoice.getInTaxTotal().signum() < 0
             ? accountConfigService.getSupplierPurchaseJournal(accountConfig)
             : accountConfigService.getSupplierCreditNoteJournal(accountConfig);
-      case InvoiceRepository.OPERATION_TYPE_CLIENT_SALE:
+      case InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE:
         return invoice.getInTaxTotal().signum() < 0
             ? accountConfigService.getCustomerCreditNoteJournal(accountConfig)
             : accountConfigService.getCustomerSalesJournal(accountConfig);
-      case InvoiceRepository.OPERATION_TYPE_CLIENT_REFUND:
+      case InvoiceRepository.OPERATION_TYPE_CUSTOMER_REFUND:
         return invoice.getInTaxTotal().signum() < 0
             ? accountConfigService.getCustomerSalesJournal(accountConfig)
             : accountConfigService.getCustomerCreditNoteJournal(accountConfig);
@@ -418,7 +418,7 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
     InvoiceGenerator invoiceGenerator =
         new InvoiceGenerator(
-            InvoiceRepository.OPERATION_TYPE_CLIENT_SALE,
+            InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE,
             company,
             paymentCondition,
             paymentMode,
@@ -677,8 +677,8 @@ public class InvoiceServiceImpl extends InvoiceRepository implements InvoiceServ
 
   @Override
   public int getPurchaseTypeOrSaleType(Invoice invoice) {
-    if (invoice.getOperationTypeSelect() == InvoiceRepository.OPERATION_TYPE_CLIENT_SALE
-        || invoice.getOperationTypeSelect() == InvoiceRepository.OPERATION_TYPE_CLIENT_REFUND) {
+    if (invoice.getOperationTypeSelect() == InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE
+        || invoice.getOperationTypeSelect() == InvoiceRepository.OPERATION_TYPE_CUSTOMER_REFUND) {
       return PriceListRepository.TYPE_SALE;
     } else if (invoice.getOperationTypeSelect()
             == InvoiceRepository.OPERATION_TYPE_SUPPLIER_PURCHASE

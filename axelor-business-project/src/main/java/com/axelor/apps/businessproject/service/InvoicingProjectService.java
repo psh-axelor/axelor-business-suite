@@ -85,7 +85,7 @@ public class InvoicingProjectService {
   @Transactional
   public Invoice generateInvoice(InvoicingProject invoicingProject) throws AxelorException {
     Project project = invoicingProject.getProject();
-    Partner customer = project.getClientPartner();
+    Partner customer = project.getCustomerPartner();
     Company company = this.getRootCompany(project);
     if (company == null) {
       throw new AxelorException(
@@ -96,7 +96,7 @@ public class InvoicingProjectService {
     project.getAssignedTo();
     InvoiceGenerator invoiceGenerator =
         new InvoiceGenerator(
-            InvoiceRepository.OPERATION_TYPE_CLIENT_SALE,
+            InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE,
             company,
             customer.getPaymentCondition(),
             customer.getInPaymentMode(),

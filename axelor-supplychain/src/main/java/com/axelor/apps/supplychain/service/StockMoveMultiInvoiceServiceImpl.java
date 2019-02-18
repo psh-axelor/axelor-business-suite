@@ -178,7 +178,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
           && !firstDummyInvoice.getPartner().equals(dummyInvoice.getPartner())) {
         throw new AxelorException(
             TraceBackRepository.CATEGORY_INCONSISTENCY,
-            I18n.get(IExceptionMessage.STOCK_MOVE_MULTI_INVOICE_CLIENT_PARTNER));
+            I18n.get(IExceptionMessage.STOCK_MOVE_MULTI_INVOICE_CUSTOMER_PARTNER));
       }
 
       if (firstDummyInvoice.getCompany() != null
@@ -345,7 +345,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
 
     InvoiceGenerator invoiceGenerator =
         new InvoiceGenerator(
-            InvoiceRepository.OPERATION_TYPE_CLIENT_SALE,
+            InvoiceRepository.OPERATION_TYPE_CUSTOMER_SALE,
             dummyInvoice.getCompany(),
             dummyInvoice.getPaymentCondition(),
             dummyInvoice.getPaymentMode(),
@@ -498,7 +498,7 @@ public class StockMoveMultiInvoiceServiceImpl implements StockMoveMultiInvoiceSe
         && StockMoveRepository.ORIGIN_SALE_ORDER.equals(stockMove.getOriginTypeSelect())) {
       SaleOrder saleOrder = saleOrderRepository.find(stockMove.getOriginId());
       dummyInvoice.setCurrency(saleOrder.getCurrency());
-      dummyInvoice.setPartner(saleOrder.getClientPartner());
+      dummyInvoice.setPartner(saleOrder.getCustomerPartner());
       dummyInvoice.setCompany(saleOrder.getCompany());
       dummyInvoice.setTradingName(saleOrder.getTradingName());
       dummyInvoice.setPaymentCondition(saleOrder.getPaymentCondition());

@@ -30,9 +30,9 @@ public interface ProjectService {
       String fullName,
       User assignedTo,
       Company company,
-      Partner clientPartner);
+      Partner customerPartner);
 
-  Partner getClientPartnerFromProject(Project project) throws AxelorException;
+  Partner getCustomerPartnerFromProject(Project project) throws AxelorException;
 
   BigDecimal computeDurationFromChildren(Long projectId);
 

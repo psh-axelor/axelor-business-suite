@@ -59,7 +59,7 @@ public class TeamTaskBusinessServiceImpl extends TeamTaskServiceImpl
     TeamTask task = create(saleOrderLine.getFullName() + "_task", project, assignedTo);
     task.setProduct(saleOrderLine.getProduct());
     task.setUnit(saleOrderLine.getUnit());
-    task.setCurrency(project.getClientPartner().getCurrency());
+    task.setCurrency(project.getCustomerPartner().getCurrency());
     if (project.getPriceList() != null) {
       PriceListLine line =
           priceListLineRepository.findByPriceListAndProduct(

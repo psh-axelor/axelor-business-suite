@@ -79,11 +79,11 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
   @Transactional
   public Partner validateCustomer(SaleOrder saleOrder) {
 
-    Partner clientPartner = partnerRepo.find(saleOrder.getClientPartner().getId());
-    clientPartner.setIsCustomer(true);
-    clientPartner.setIsProspect(false);
+    Partner customerPartner = partnerRepo.find(saleOrder.getCustomerPartner().getId());
+    customerPartner.setIsCustomer(true);
+    customerPartner.setIsProspect(false);
 
-    return partnerRepo.save(clientPartner);
+    return partnerRepo.save(customerPartner);
   }
 
   @Override
@@ -107,12 +107,12 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
     Query q =
         JPA.em()
             .createQuery(
-                "select count(*) FROM SaleOrder as self WHERE self.statusSelect = ?1 AND self.clientPartner = ?2 ");
+                "select count(*) FROM SaleOrder as self WHERE self.statusSelect = ?1 AND self.customerPartner = ?2 ");
     q.setParameter(1, SaleOrderRepository.STATUS_ORDER_CONFIRMED);
-    q.setParameter(2, saleOrder.getClientPartner());
+    q.setParameter(2, saleOrder.getCustomerPartner());
     if ((long) q.getSingleResult() == 1) {
-      saleOrder.getClientPartner().setIsCustomer(false);
-      saleOrder.getClientPartner().setIsProspect(true);
+      saleOrder.getCustomerPartner().setIsCustomer(false);
+      saleOrder.getCustomerPartner().setIsProspect(true);
     }
     saleOrder.setStatusSelect(SaleOrderRepository.STATUS_CANCELED);
     saleOrder.setCancelReason(cancelReason);
@@ -130,7 +130,7 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
     ignore = {BlockedSaleOrderException.class}
   )
   public void finalizeQuotation(SaleOrder saleOrder) throws AxelorException {
-    Partner partner = saleOrder.getClientPartner();
+    Partner partner = saleOrder.getCustomerPartner();
 
     Blocking blocking =
         Beans.get(BlockingService.class)
@@ -143,7 +143,7 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
         String reason =
             blocking.getBlockingReason() != null ? blocking.getBlockingReason().getName() : "";
         throw new BlockedSaleOrderException(
-            partner, I18n.get("Client is sale blocked:") + " " + reason);
+            partner, I18n.get("Customer is sale blocked:") + " " + reason);
       }
     }
 
@@ -188,7 +188,7 @@ public class SaleOrderWorkflowServiceImpl implements SaleOrderWorkflowService {
   @Override
   public void saveSaleOrderPDFAsAttachment(SaleOrder saleOrder) throws AxelorException {
     ReportFactory.createReport(IReport.SALES_ORDER, this.getFileName(saleOrder) + "-${date}")
-        .addParam("Locale", ReportSettings.getPrintingLocale(saleOrder.getClientPartner()))
+        .addParam("Locale", ReportSettings.getPrintingLocale(saleOrder.getCustomerPartner()))
         .addParam("SaleOrderId", saleOrder.getId())
         .toAttach(saleOrder)
         .generate()

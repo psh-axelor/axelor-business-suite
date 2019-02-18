@@ -294,7 +294,7 @@ public class MrpLineServiceImpl implements MrpLineService {
 
     if (model instanceof SaleOrderLine) {
 
-      return ((SaleOrderLine) model).getSaleOrder().getClientPartner();
+      return ((SaleOrderLine) model).getSaleOrder().getCustomerPartner();
 
     } else if (model instanceof PurchaseOrderLine) {
 

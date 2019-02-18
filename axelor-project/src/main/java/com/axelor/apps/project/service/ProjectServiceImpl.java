@@ -53,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
       String fullName,
       User assignedTo,
       Company company,
-      Partner clientPartner) {
+      Partner customerPartner) {
     Project project;
     project = projectRepository.findByName(fullName);
     if (project != null) {
@@ -74,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService {
     project.setName(fullName);
     project.setFullName(project.getName());
     project.setCompany(company);
-    project.setClientPartner(clientPartner);
+    project.setCustomerPartner(customerPartner);
     project.setAssignedTo(assignedTo);
     project.setProgress(BigDecimal.ZERO);
     return project;
@@ -111,19 +111,20 @@ public class ProjectServiceImpl implements ProjectService {
   }
 
   @Override
-  public Partner getClientPartnerFromProject(Project project) throws AxelorException {
-    return this.getClientPartnerFromProject(project, 0);
+  public Partner getCustomerPartnerFromProject(Project project) throws AxelorException {
+    return this.getCustomerPartnerFromProject(project, 0);
   }
 
-  private Partner getClientPartnerFromProject(Project project, int counter) throws AxelorException {
+  private Partner getCustomerPartnerFromProject(Project project, int counter)
+      throws AxelorException {
     if (project.getParentProject() == null) {
-      // it is a root project, can get the client partner
-      if (project.getClientPartner() == null) {
+      // it is a root project, can get the customer partner
+      if (project.getCustomerPartner() == null) {
         throw new AxelorException(
             TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
             I18n.get(IExceptionMessage.PROJECT_CUSTOMER_PARTNER));
       } else {
-        return project.getClientPartner();
+        return project.getCustomerPartner();
       }
     } else {
       if (counter > MAX_LEVEL_OF_PROJECT) {
@@ -131,7 +132,7 @@ public class ProjectServiceImpl implements ProjectService {
             TraceBackRepository.CATEGORY_CONFIGURATION_ERROR,
             I18n.get(IExceptionMessage.PROJECT_DEEP_LIMIT_REACH));
       } else {
-        return this.getClientPartnerFromProject(project.getParentProject(), counter + 1);
+        return this.getCustomerPartnerFromProject(project.getParentProject(), counter + 1);
       }
     }
   }
