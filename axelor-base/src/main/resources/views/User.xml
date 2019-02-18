@@ -242,13 +242,13 @@
     </action-record>
     
     <action-record name="action-user-record-step-status-next" model="com.axelor.auth.db.User">
-    	<field name="stepStatusSelect" expr="eval: stepStatusSelect + 2" if="stepStatusSelect == 2 &amp;&amp; (partner?.isClient || partner?.isEmployee || partner?.isSupplier)"/>
-    	<field name="stepStatusSelect" expr="eval: stepStatusSelect + 1" if="stepStatusSelect != 2 || (stepStatusSelect == 2 &amp;&amp; (!partner?.isClient &amp;&amp; !partner?.isEmployee &amp;&amp; !partner?.isSupplier))"/>
+    	<field name="stepStatusSelect" expr="eval: stepStatusSelect + 2" if="stepStatusSelect == 2 &amp;&amp; (partner?.isCustomer || partner?.isEmployee || partner?.isSupplier)"/>
+    	<field name="stepStatusSelect" expr="eval: stepStatusSelect + 1" if="stepStatusSelect != 2 || (stepStatusSelect == 2 &amp;&amp; (!partner?.isCustomer &amp;&amp; !partner?.isEmployee &amp;&amp; !partner?.isSupplier))"/>
     </action-record>
     
     <action-record name="action-user-record-step-status-previous" model="com.axelor.auth.db.User">
-    	<field name="stepStatusSelect" expr="eval: stepStatusSelect - 2" if="stepStatusSelect == 4 &amp;&amp; (partner?.isClient || partner?.isEmployee || partner?.isSupplier)"/>
-    	<field name="stepStatusSelect" expr="eval: stepStatusSelect - 1" if="stepStatusSelect != 4 || (stepStatusSelect == 4 &amp;&amp; (!partner?.isClient &amp;&amp; !partner?.isEmployee &amp;&amp; !partner?.isSupplier))"/>
+    	<field name="stepStatusSelect" expr="eval: stepStatusSelect - 2" if="stepStatusSelect == 4 &amp;&amp; (partner?.isCustomer || partner?.isEmployee || partner?.isSupplier)"/>
+    	<field name="stepStatusSelect" expr="eval: stepStatusSelect - 1" if="stepStatusSelect != 4 || (stepStatusSelect == 4 &amp;&amp; (!partner?.isCustomer &amp;&amp; !partner?.isEmployee &amp;&amp; !partner?.isSupplier))"/>
     </action-record>
     
     <action-validate name="action-user-check-company">

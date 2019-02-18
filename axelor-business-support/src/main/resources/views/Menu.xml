@@ -21,8 +21,8 @@
   <menuitem name="project-task-customer-my-task" title="My Tasks" parent="project-task-customer" action="project.task.customer.my.task" order="1"/>
   
   <action-view name="project.task.customer.my.task" title="My Tasks" model="com.axelor.team.db.TeamTask">
-	<view type="grid" name="team-task-client-grid"/>
-	<view type="form" name="team-task-client-form"/>
+	<view type="grid" name="team-task-customer-grid"/>
+	<view type="form" name="team-task-customer-form"/>
 	<domain>self.customerReferral = :user AND self.isPrivate = false</domain>
 	<context name="user" expr="eval: __user__"/>
   </action-view>
@@ -30,15 +30,15 @@
   <menuitem name="project-task-customer-new" title="New tasks" parent="project-task-customer" action="project.task.customer.new" order="2"/>
 
   <action-view name="project.task.customer.new" title="New tasks" model="com.axelor.team.db.TeamTask">
-	<view type="form" name="team-task-client-form"/>
+	<view type="form" name="team-task-customer-form"/>
   </action-view>
 
   <menuitem name="project-task-customer-treated-by-customer" title="Tasks to be treated by customer" parent="project-task-customer"
 	action="project.task.customer.treated.by.customer" order="3"/>
 
   <action-view name="project.task.customer.treated.by.customer" title="Tasks to be treated by customer" model="com.axelor.team.db.TeamTask">
-	<view type="grid" name="team-task-client-grid"/>
-	<view type="form" name="team-task-client-form"/>
+	<view type="grid" name="team-task-customer-grid"/>
+	<view type="form" name="team-task-customer-form"/>
 	<domain>self.status IN :statusCustomer AND self.isPrivate = false AND self.assignment = 1</domain>
 	<context name="statusCustomer" expr="#{['new', 'in-progress']}"/>
   </action-view>
@@ -47,8 +47,8 @@
 	action="project.task.customer.treated.by.provider" order="4"/>
 
   <action-view name="project.task.customer.treated.by.provider" title="Tasks to be treated by provider" model="com.axelor.team.db.TeamTask">
-	<view type="grid" name="team-task-client-grid"/>
-	<view type="form" name="team-task-client-form"/>
+	<view type="grid" name="team-task-customer-grid"/>
+	<view type="form" name="team-task-customer-form"/>
 	<domain>self.status IN :statusProvider AND self.isPrivate = false AND self.assignment = 2</domain>
 	<context name="statusProvider" expr="#{['new', 'in-progress']}"/>
   </action-view>
@@ -57,8 +57,8 @@
 	action="project.task.customer.open.all" order="5"/>
 
   <action-view name="project.task.customer.open.all" title="All open tasks" model="com.axelor.team.db.TeamTask">
-	<view type="grid" name="team-task-client-grid"/>
-	<view type="form" name="team-task-client-form"/>
+	<view type="grid" name="team-task-customer-grid"/>
+	<view type="form" name="team-task-customer-form"/>
 	<domain>self.status IN :status_open AND self.isPrivate = false</domain>
 	<context name="status_open" expr="#{['new', 'in-progress']}"/>
   </action-view>
@@ -67,8 +67,8 @@
 	action="project.task.customer.all" order="6"/>
 
   <action-view name="project.task.customer.all" title="All tickets" model="com.axelor.team.db.TeamTask">
-	<view type="grid" name="team-task-client-grid"/>
-	<view type="form" name="team-task-client-form"/>
+	<view type="grid" name="team-task-customer-grid"/>
+	<view type="form" name="team-task-customer-form"/>
 	<domain>self.isPrivate = false</domain>
   </action-view>
 
